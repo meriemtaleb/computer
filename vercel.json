@@ -1,16 +1,22 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
-  "functions": {
-    "api/index.php": {
-      "runtime": "vercel-php@0.7.4"
-    }
-  },
-  "routes": [
+  "builds": [
     {
-      "src": "/(.*)",
-      "dest": "/api/index.php"
+      "src": "api/index.php",
+      "use": "@vercel/php"
     }
   ],
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.6.0"
+    }
+  },
+  "buildCommand": "composer install && php artisan config:cache && php artisan route:cache && php artisan view:cache",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.php"
+    }
+  ]
 }
