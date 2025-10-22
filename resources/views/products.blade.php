@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamouda Shop - Laptops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark: #212529;
+            --light: #FFFFFF;
+            --accent: #0077b6;
+            --gray: #adb5bd;
+            --darkblue: #03045e;
+            --pink: #e4405f;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --border-radius: 8px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            min-width: 320px;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-left: 12px;
+            width: 100%;
+        }
+        .logo img {
+            width: 200px;
+            height: 40px;
+        }
+        nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin-left: -100px;
+        }
+        nav ul li {
+            margin: 0 1rem;
+            gap: 6px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            position: relative;
+        }
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.9s ease;
+        }
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        .nav-icon {
+            position: relative;
+            margin-left: 1.5rem;
+            color: var(--dark);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 101;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            margin: 2px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        /* Page content styles */
+        .page-header {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .page-title {
+            font-size: 2.2rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+        .breadcrumb li {
+            margin-left: 0.5rem;
+        }
+        .breadcrumb li:not(:last-child)::after {
+            content: '/';
+            margin-right: 0.5rem;
+        }
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .filter-section {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .filter-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid  var(--gray);
+            border-radius: 5px;
+        }
+        
+        /* Fixed Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 3rem 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 30px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .search-box input::placeholder {
+            color: var(--gray);
+            font-size: 15px;
+            text-align: right;
+            opacity: 1;
+        }
+        .search-logo {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 20px;
+            z-index: 2;
+        }
+        
+        .look {
+            display: flex;
+            justify-content: space-between;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 40px;
+        }
+        .product-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+        .product-info {
+            padding: 1.5rem;
+        }
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        .product-info .price {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .sub-info span{
+            font-size: 13px;
+
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--light);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 10px 20px;
+        }
+        .btn:hover {
+            background-color: #184e77;
+            color: white;
+            border-color: #184e77;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .btn-outline {
+            background-color: var(--darkblue);
+            color: var(--light);
+            margin-right: 1rem;
+            border-color: var(--light);
+        }
+        .btn-outline:hover {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray);
+            margin: 0 0.3rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .pagination-item:hover, .pagination-item.active {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-column ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-column ul li a:hover {
+            color: var(--gray);
+        }
+        .social-links {
+            display: flex;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--light);
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            transition: all 0.3s;
+        }
+        .facebook a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .insta a:hover {
+            background-color: var(--pink);
+            transform: translateY(-5px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+        }
+        .nav-icon a{
+            color: black;
+            text-decoration: none;
+        }
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            .menu-toggle {
+                display: flex;
+                order: 1;
+                transform: translateX(-35px);
+            }
+            .logo {
+                display: none;
+            }
+            .nav-icons {
+                order: 3;
+            }
+            nav {
+                order: 4;
+                flex-basis: 100%;
+                margin-top: 1rem;
+            }
+            nav.active {
+                display: flex;
+                animation: fadeIn 0.5s ease;
+            }
+            nav:not(.active) {
+                display: none;
+            }
+            nav ul {
+                flex-direction: column;
+                width: 70%;
+                margin-right: -4rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+            /* Adjust search box for mobile */
+            .search-box input {
+                width: 100%;
+            }
+            .search-logo {
+                right: 1rem;
+                margin-right: 0;
+            }
+            .filter-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body id="body">
+    <header id="header">
+        <div class="container header-content">
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-icons">
+                <div class="nav-icon">
+              <a href="{{ route('cart.show') }}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count">{{ $cartCount ?? 0 }}</span>
+                </div>
+                <div class="nav-icon">
+                    <a href="{{ route('showLoginForm') }}"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#footer">الخدمات</a></li>
+                    <li><a href="{{ route('product.showindex') }}">الرئيسية</a></li>
+                    <li><a href="{{ route('product.showmainpage') }}">المنتجات</a></li>
+                    <li><a href="#footer">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div class="logo">
+                <img src="{{ asset('images/hamouda-removebg-preview.png') }}" alt="Hamouda Shop">
+            </div>
+        </div>
+    </header>
+    <div class="container">
+      
+   
+        <form id="filterForm" action="/product/filter" method="POST">
+            @csrf
+            <div class="filter-section">
+                <div class="search-box">
+                    <input name="search" type="text" placeholder="ابحث عن لاب توب" id="searchInput">
+                    <div class="search-logo">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+            </div>
+        </form>
+      
+        <div class="products">
+    @foreach($products as $product)
+        <div class="product-card">
+            <div class="product-img">
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+            </div>
+            <div class="product-info">
+                <h3>{{ $product->name }}</h3>
+                <span class="price">{{ number_format($product->price, 0, '.', ',') }} د.ج</span>
+              <div class="sub-info"  style="margin-top: -10px">
+                  <span class="category" >{{ $product->cpu }}</span>,
+                <span class="brand" >{{ $product->ram }}</span>,
+                <span class="category" >{{ $product->storage }}</span>
+              </div>
+                <div>
+                     @if($product->stock <= 0)
+                        <span class="not-available" style="  color: #dc3545; font-weight: bold; margin-top:0.5rem;">هذا المنتج غير متوفر</span>
+                    @endif
+                </div>
+                <div class="buttons">
+                    <a href="{{ route('product.detail', $product->id) }}" 
+                       class="btn order" 
+                       @if($product->stock <= 0) style="pointer-events: none; opacity: 0.6;" @endif>التفاصيل</a>
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn order" @if($product->stock <= 0) disabled style="pointer-events: none; opacity: 0.6;"@endif>إضافة إلى السلة</button>
+                    </form>
+                   
+                </div>
+            </div>
+        </div>
+    @endforeach
+</div>
+      
+        <div class="pagination">
+          
+        </div>
+    </div>
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>متجر حمودة</h3>
+                    <p>متجر متخصص في الحواسيب والخدمات التقنية في الجزائر</p>
+                    <div class="social-links">
+                        <div class="facebook">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="insta">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="{{ route('product.showindex') }}">الرئيسية</a></li>
+                        <li><a href="{{ route('product.showmainpage') }}">المنتجات</a></li>
+                        <li><a href="#footer">الخدمات</a></li>
+                        <li><a href="#">عن المتجر</a></li>
+                        <li><a href="#footer">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>خدماتنا</h3>
+                    <ul>
+                        <li><a href="#">الحواسيب</a></li>
+                        <li><a href="#">التسوق العالمي</a></li>
+                        <li><a href="#">تسجيل الدورات</a></li>
+                        <li><a href="#">تحويل الأموال الدولي</a></li>
+                        <li><a href="#">الدعم الفني</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 0552155123</li>
+                        <li><i class="fas fa-envelope"></i> contact@hamoudashop.dz</li>
+                        <li><i class="fas fa-map-marker-alt"></i> الجزائر</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>جميع الحقوق محفوظة &copy; 2025 متجر حمودة</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Mobile menu toggle functionality
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mainNav = document.getElementById('main-nav');
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mainNav.classList.toggle('active');
+        });
+        // Server-side filter form submission
+        const form = document.getElementById('filterForm');
+        const selects = form.querySelectorAll('select');
+        selects.forEach(select => {
+            select.addEventListener('change', () => {
+                form.submit();
+            });
+        });
+        // Client-side search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchText = this.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                if (title.includes(searchText)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        // Client-side filter functionality
+        const filterSelects = document.querySelectorAll('select');
+        filterSelects.forEach(select => {
+            select.addEventListener('change', filterProducts);
+        });
+        function filterProducts() {
+            const brand = document.getElementById('brand').value;
+            const price = document.getElementById('price').value;
+            const ram = document.getElementById('ram').value;
+            const storage = document.getElementById('storage').value;
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const cardBrand = card.querySelector('.category')?.textContent.toLowerCase() || '';
+                const cardPrice = parseFloat(card.querySelector('.price')?.textContent) || 0;
+                const cardRam = parseInt(card.querySelector('.brand')?.textContent) || 0;
+                const cardStorage = parseInt(card.querySelectorAll('.category')[1]?.textContent) || 0;
+                let brandMatch = !brand || cardBrand === brand;
+                let priceMatch = !price || checkPriceRange(cardPrice, price);
+                let ramMatch = !ram || cardRam >= parseInt(ram);
+                let storageMatch = !storage || cardStorage >= parseInt(storage);
+                if (brandMatch && priceMatch && ramMatch && storageMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        function checkPriceRange(price, range) {
+            if (range === '150000+') return price > 150000;
+            const [min, max] = range.split('-').map(Number);
+            return price >= min && price <= max;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamouda Shop - نموذج الطلب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark: #212529;
+            --light: #FFFFFF;
+            --accent: #0077b6;
+            --gray: #adb5bd;
+            --darkblue: #03045e;
+            --pink: #e4405f;
+            --primary: #0077b6;
+            --primary-dark: #03045e;
+            --primary-light: #caf0f8;
+            --border: #dee2e6;
+            --success: #28a745;
+            --error: #dc3545;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            min-width: 320px;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-left: 12px;
+            width: 100%;
+        }
+        .logo img {
+            width: 200px;
+            height: 40px;
+        }
+        nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin-left: -100px;
+        }
+        nav ul li {
+            margin: 0 1rem;
+            gap: 6px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            position: relative;
+        }
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.9s ease;
+        }
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        .nav-icon {
+            position: relative;
+            margin-left: 1.5rem;
+            color: var(--dark);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .nav-icon i {
+            color: black;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 101;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            margin: 2px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .main-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+        }
+        .order-form-container {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+        .order-summary-container {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .form-group label i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-weight: 400;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.1);
+        }
+        .form-control.error {
+            border-color: var(--error);
+        }
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .product-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .product-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-left: 1rem;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .product-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        .product-price {
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .quantity-input {
+            width: 45px;
+            text-align: center;
+            padding: 0.25rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin: 0 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .summary-total {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding: 0.25rem 0;
+            font-size: 0.95rem;
+        }
+        .summary-total .summary-row {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+            padding: 0.5rem 0;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.9rem;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .validation-icon {
+            position: absolute;
+            right: 10px;
+            top: 38px;
+            display: none;
+        }
+        .fa-check-circle {
+            color: var(--success);
+        }
+        .fa-times-circle {
+            color: var(--error);
+        }
+        .sub-title {
+            color: black;
+        }
+        .alert-success {
+            color: var(--light);
+            background-color: var(--success);
+        }
+        .alert-error {
+            background-color: var(--error);
+            color: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-column ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-column ul li a:hover {
+            color: var(--gray);
+        }
+        .social-links {
+            display: flex;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--light);
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            transition: all 0.3s;
+        }
+        .facebook a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .insta a:hover {
+            background-color: var(--pink);
+            transform: translateY(-5px);
+        }
+        a {
+            text-decoration: none;
+        }
+        @media (max-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .header-content {
+                flex-wrap: wrap;
+            }
+            .menu-toggle {
+                display: flex;
+                order: 1;
+                transform: translateX(-35px);
+            }
+            .logo {
+                display: none;
+            }
+            .nav-icons {
+                order: 3;
+            }
+            nav {
+                order: 4;
+                flex-basis: 100%;
+                margin-top: 1rem;
+            }
+            nav.active {
+                display: flex;
+                animation: fadeIn 0.5s ease;
+            }
+            nav:not(.active) {
+                display: none;
+            }
+            nav ul {
+                flex-direction: column;
+                width: 70%;
+                margin-right: -4rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .form-row .form-group {
+                min-width: 100%;
+            }
+            .product-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .product-img {
+                margin-left: 0;
+                margin-bottom: 1rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .main-container {
+                width: 95%;
+            }
+            .order-form-container, .order-summary-container {
+                padding: 1.5rem;
+            }
+            .section-title {
+                font-size: 1.2rem;
+            }
+            .order-summary-container {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container header-content">
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-icons">
+                <div class="nav-icon">
+                    <a href="{{ route('cart.show') }}"><i class="fas fa-shopping-cart"></i></a>
+                    <span class="cart-count">{{ $cartCount ?? 0 }}</span>
+                </div>
+                <div class="nav-icon">
+                    <a href="{{ route('showLoginForm') }}"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a class="elemnts" href="{{ route('product.showindex') }}">الرئيسية</a></li>
+                    <li><a class="elemnts" href="{{ route('product.showmainpage') }}">المنتجات</a></li>
+                    <li><a class="elemnts" href="#footer">الخدمات</a></li>
+                    <li><a class="elemnts" href="#footer">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div class="logo">
+                <img src="{{ asset('images/hamouda-removebg-preview.png') }}" alt="Hamouda Shop">
+            </div>
+        </div>
+    </header>
+    @if(session('sent'))
+        <div class="alert alert-success">
+            {{ session('sent') }}
+        </div>
+    @endif
+    @if(session('success'))
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert-error">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if($errors->any())
+        <div class="alert-error">
+            <strong><i class="fas fa-exclamation-triangle"></i> يوجد أخطاء في النموذج:</strong>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="main-container">
+        <div class="order-form-container">
+            <h2 class="section-title">
+                <i class="fas fa-user-circle"></i>
+                معلومات العميل
+            </h2>
+            <form id="customer-order-form" action="{{ route('order.store') }}" method="POST">
+                @csrf
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i>
+                            الاسم الكامل *
+                        </label>
+                        <input type="text" id="name" name="name" class="form-control @error('name') error @enderror" placeholder="أدخل اسمك الكامل" value="{{ old('name') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">
+                            <i class="fas fa-phone"></i>
+                            رقم الهاتف *
+                        </label>
+                        <input type="tel" id="phone_number" name="phone_number" class="form-control @error('phone_number') error @enderror" placeholder="05xxxxxxxx" value="{{ old('phone_number') }}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="wilaya">
+                            <i class="fas fa-map"></i>
+                            الولاية *
+                        </label>
+                       <select id="wilaya" name="wilaya" class="form-control @error('wilaya') error @enderror" required>
+                            <option value="">اختر الولاية</option>
+                                @forelse($wilayas as $wilaya)
+                                       <option value="{{ $wilaya['value'] }}"
+                                         data-prix-unitaire="{{ $wilaya['prix_unitaire'] }}"
+                                          data-stop-desk="{{ $wilaya['stop_desk'] ?? 'null' }}"
+                                         {{ old('wilaya') == $wilaya['value'] ? 'selected' : '' }}>
+                                      {{ $wilaya['name'] }}
+                           </option>
+                                      @empty
+                                 <option value="default">غير محدد</option>
+                                @endforelse
+                       </select>
+                        @error('wilaya')
+                            <div class="error-message" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="delivery_type">
+                            <i class="fas fa-truck"></i>
+                            نوع التوصيل *
+                        </label>
+                        <select id="delivery_type" name="delivery_type" class="form-control @error('delivery_type') error @enderror" required>
+                            <option value="">اختر نوع التوصيل</option>
+                            <option value="home_delivery" {{ old('delivery_type') == 'home_delivery' ? 'selected' : '' }}>توصيل إلى المنزل</option>
+                            <option value="stop_desk" {{ old('delivery_type') == 'stop_desk' ? 'selected' : '' }}>توصيل إلى مكتب</option>
+                        </select>
+                        @error('delivery_type')
+                            <div class="error-message" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                @foreach($cart as $id => $item)
+                    <input type="hidden" name="products[{{ $id }}][id]" value="{{ $id }}">
+                    <input type="hidden" name="products[{{ $id }}][quantity]" class="quantity-input" value="{{ $item['quantity'] }}" data-id="{{ $id }}">
+                @endforeach
+                <button type="submit" class="btn" id="submit-btn">
+                    <i class="fas fa-paper-plane"></i> تأكيد الطلب
+                </button>
+            </form>
+        </div>
+        <div class="order-summary-container">
+            <h2 class="section-title">
+                <i class="fas fa-shopping-cart"></i>
+                ملخص الطلب
+            </h2>
+            @forelse($cart as $id => $item)
+                <div class="product-item" data-id="{{ $id }}">
+                    <div class="product-img">
+                        <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">{{ $item['name'] }}</div>
+                        <div class="product-price" data-price="{{ $item['price'] }}">{{ number_format($item['price'], 0, '.', ',') }} د.ج</div>
+                        <div class="quantity-control">
+                            <button type="button" class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $item['stock'] ?? 10 }}" data-id="{{ $id }}">
+                            <button type="button" class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p>لا توجد منتجات في السلة.</p>
+            @endforelse
+            <div class="summary-total">
+                <div class="summary-row">
+                    <span class="sub-title">المجموع الجزئي:</span>
+                    <span id="subtotal">{{ number_format($total, 0, '.', ',') }} د.ج</span>
+                </div>
+                <div class="summary-row">
+                    <span class="sub-title">التوصيل:</span>
+                    <span id="delivery-cost">{{ number_format($deliveryCost, 0, '.', ',') }} د.ج</span>
+                </div>
+                <div class="summary-row">
+                    <span class="sub-title">الإجمالي:</span>
+                    <span id="total">{{ number_format($finalTotal, 0, '.', ',') }} د.ج</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Hamouda Shop</h3>
+                    <p>متجر متخصص في أجهزة الكمبيوتر والخدمات التقنية في الجزائر</p>
+                    <div class="social-links">
+                        <div class="facebook">
+                            <a href="https://www.facebook.com/Hamouda.Shoop18"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="insta">
+                            <a href="https://www.instagram.com/hamouda_shop_/"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="{{ route('product.showindex') }}">الرئيسية</a></li>
+                        <li><a href="{{ route('product.showmainpage') }}">المنتجات</a></li>
+                        <li><a href="#footer">الخدمات</a></li>
+                        <li><a href="#footer">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>خدماتنا</h3>
+                    <ul>
+                        <li><a href="#">أجهزة الكمبيوتر</a></li>
+                        <li><a href="#">التسوق العالمي</a></li>
+                        <li><a href="#">تسجيل الدورات</a></li>
+                        <li><a href="#">تحويل الأموال الدولي</a></li>
+                        <li><a href="#">الدعم الفني</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 0552155123</li>
+                        <li><i class="fas fa-envelope"></i> contact@hamoudashop.dz</li>
+                        <li><i class="fas fa-map-marker-alt"></i> جيجل، الجزائر</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Hamouda Shop. جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+<script>         
+  // تفعيل قائمة التنقل على الأجهزة المحمولة
+const mobileMenu = document.getElementById('mobile-menu');
+const mainNav = document.getElementById('main-nav');
+mobileMenu.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mainNav.classList.toggle('active');
+});
+
+// تحديث الكمية في النموذج وملخص الطلب
+document.querySelectorAll('.quantity-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.quantity-input');
+        const itemId = input.getAttribute('data-id');
+        let value = parseInt(input.value) || 1;
+
+        if (this.classList.contains('plus') && value < parseInt(input.max)) {
+            input.value = value + 1;
+        } else if (this.classList.contains('minus') && value > 1) {
+            input.value = value - 1;
+        }
+
+        // تحديث حقل الكمية المخفي في النموذج
+        const hiddenInput = document.getElementById(`quantity-${itemId}`);
+        if (hiddenInput) {
+            hiddenInput.value = input.value;
+        } else {
+            console.error(`Hidden input for product ${itemId} not found`);
+        }
+
+        updateSummary();
+    });
+});
+
+// تحديث ملخص الطلب
+function updateSummary() {
+    let subtotal = 0;
+    document.querySelectorAll('.product-item').forEach(item => {
+        const price = parseFloat(item.querySelector('.product-price').getAttribute('data-price')) || 0;
+        const quantity = parseInt(item.querySelector('.quantity-input').value) || 1;
+        subtotal += price * quantity;
+    });
+
+    const wilayaSelect = document.getElementById('wilaya');
+    const deliveryTypeSelect = document.getElementById('delivery_type');
+    let delivery = 0;
+
+    if (wilayaSelect.value && deliveryTypeSelect.value) {
+        const selectedOption = wilayaSelect.options[wilayaSelect.selectedIndex];
+        const prixUnitaire = parseFloat(selectedOption.getAttribute('data-prix-unitaire')) || 0;
+        const stopDesk = selectedOption.getAttribute('data-stop-desk') !== 'null' ? parseFloat(selectedOption.getAttribute('data-stop-desk')) : null;
+
+        if (stopDesk === null) {
+            deliveryTypeSelect.value = 'home_delivery';
+            deliveryTypeSelect.querySelector('option[value="stop_desk"]').disabled = true;
+            delivery = prixUnitaire;
+        } else {
+            deliveryTypeSelect.querySelector('option[value="stop_desk"]').disabled = false;
+            delivery = deliveryTypeSelect.value === 'home_delivery' ? prixUnitaire : stopDesk;
+        }
+    }
+
+    const total = subtotal + (delivery || 0);
+    document.getElementById('subtotal').textContent = subtotal.toLocaleString('ar-DZ') + ' د.ج';
+    document.getElementById('delivery-cost').textContent = (delivery || 0).toLocaleString('ar-DZ') + ' د.ج';
+    document.getElementById('total').textContent = total.toLocaleString('ar-DZ') + ' د.ج';
+}
+
+// إضافة أحداث التغيير لتحديث الملخص
+document.getElementById('wilaya').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const stopDesk = selectedOption.getAttribute('data-stop-desk') !== 'null' ? parseFloat(selectedOption.getAttribute('data-stop-desk')) : null;
+    const deliveryTypeSelect = document.getElementById('delivery_type');
+
+    if (stopDesk === null) {
+        deliveryTypeSelect.value = 'home_delivery';
+        deliveryTypeSelect.querySelector('option[value="stop_desk"]').disabled = true;
+    } else {
+        deliveryTypeSelect.querySelector('option[value="stop_desk"]').disabled = false;
+    }
+
+    updateSummary();
+});
+
+document.getElementById('delivery_type').addEventListener('change', updateSummary);
+
+// تحديث الملخص عند التحميل الأولي
+window.addEventListener('load', function() {
+    console.log('Page loaded, updating summary');
+    updateSummary();
+});
+
+// تصحيح أخطاء وحدة التحكم
+console.log('Wilayas loaded:', document.getElementById('wilaya').options.length);
+</script>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick vs onchange</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        #output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <h2>مثال على onclick</h2>
+    <button onclick="document.getElementById('output').innerText = 'ضغطت الزر!'">
+        اضغط هنا
+    </button>
+
+    <h2>مثال على onchange</h2>
+    <select onchange="document.getElementById('output').innerText = 'اخترت: ' + this.value">
+        <option value="">اختر فاكهة</option>
+        <option value="تفاح">تفاح</option>
+        <option value="موز">موز</option>
+        <option value="برتقال">برتقال</option>
+    </select>
+
+    <div id="output">النتيجة تظهر هنا...</div>
+
+</body>
+</html>

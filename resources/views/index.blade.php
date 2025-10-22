@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر حمودة - متجر الحواسيب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <style>
+        :root {
+            --dark: #212529;
+            --light: #FFFFFF;
+            --accent: #0077b6;
+            --gray: #adb5bd;
+            --darkblue: #03045e;
+            --pink: #e4405f;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            min-width: 320px;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-left: 12px;
+            width: 100% ;
+        }
+        .logo img {
+            width: 200px;
+            height: 40px;
+        }
+        nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin-left: -100px;
+        }
+        nav ul li {
+            margin: 0 1rem;
+            gap: 6px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            transition: color 0.3s;
+            padding: 0.5rem;
+            position: relative;
+        }
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.9s ease;
+        }
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        .nav-icon {
+            position: relative;
+            margin-left: 1.5rem;
+            color: var(--dark);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 101;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            margin: 2px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        .hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,119,182,0.3) 100%), url('https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg');
+            background-position: center;
+            background-size: cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            width: 100%;
+            max-width: 800px;
+            animation: slideIn 1.5s ease-in-out;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: subtlePulse 3s infinite ease-in-out;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            animation: fadeInText 2s ease-in-out;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--light);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            padding: 10px 20px;
+        }
+        .btn:hover {
+            background-color: #184e77;
+            color: white;
+            border-color: #184e77;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .btn-outline {
+            background-color: var(--darkblue);
+            color: var(--light);
+            margin-right: 1rem;
+            border-color: var(--light);
+        }
+        .btn-outline:hover {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        .swiper-container {
+            position: relative;
+            padding: 0 20px;
+            overflow: hidden; 
+        }
+        .swiper-slide {
+            width: auto; 
+            transition: opacity 0.6s ease;
+        }
+        .swiper-slide-active,
+        .swiper-slide-duplicate-active {
+            opacity: 1; 
+        }
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-column ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-column ul li a:hover {
+            color: var(--gray);
+        }
+        .social-links {
+            display: flex;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--light);
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            transition: all 0.3s;
+        }
+        .facebook a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .insta a:hover {
+            background-color: var(--pink);
+            transform: translateY(-5px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+        }
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes subtlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        section {
+            padding: 4rem 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+        .product-info {
+            padding: 1.5rem;
+        }
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        .product-info .price {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 2px solid var(--gray);
+            transition: all 0.3s;
+        }
+        .service-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .service-card h3 {
+            margin-bottom: 1rem;
+        }
+        .testimonials {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+        .testimonials .section-title h2 {
+            color: var(--light);
+        }
+        .testimonials .section-title h2::after {
+            background-color: var(--accent);
+        }
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            position: relative;
+        }
+        .testimonial-card::before {
+            content: '\201C';
+            font-size: 5rem;
+            color: rgba(255,255,255,0.2);
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .testimonial-card .quote {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .testimonial-card .client {
+            display: flex;
+            align-items: center;
+        }
+        .testimonial-card .client img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 1rem;
+            border: 3px solid var(--light);
+        }
+        .testimonial-card .client-info h4 {
+            margin-bottom: 0.2rem;
+        }
+        .testimonial-card .client-info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        .swiper-container {
+            position: relative;
+            padding: 0 20px;
+        }
+        .how-it-works {
+            text-align: center;
+        }
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+        .step {
+            width: 200px;
+            margin-bottom: 2rem;
+        }
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--accent);
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+        .step h3 {
+            margin-bottom: 0.5rem;
+        }
+        .menu{
+            display: none;
+        }
+        .nav-icon a{
+            color: black;
+        }
+        @media (max-width: 992px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            .menu-toggle {
+                display: flex;
+                order: 1;    
+                transform: translateX(-35px);
+            }
+            .logo {
+               display: none;
+            }
+            .nav-icons {
+                order: 3;
+            }
+            nav {
+                order: 4;
+                flex-basis: 100%;
+                margin-top: 1rem;
+            }
+            nav.active {
+                display: flex;
+                animation: fadeIn 0.5s ease;
+            }
+            nav:not(.active) {
+                display: none;
+            }
+            nav ul {
+                flex-direction: column;
+                width: 70%;
+                margin-right: -4rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container header-content">
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-icons">
+                <div class="nav-icon">
+                 <a href="{{ route('cart.show') }}"><i class="fas fa-shopping-cart"></i></a>
+                    <span class="cart-count">{{ $cartCount ?? 0 }}</span>
+                </div>
+                <div class="nav-icon">
+                    <a href="{{ route('showLoginForm') }}"> <i class="fas fa-user"></i></a>
+                </div>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a class="elemnts" href="{{ route('product.showindex') }}">الرئيسية</a></li>
+                    <li><a class="elemnts" href="{{ route('product.showmainpage') }}">المنتجات</a></li>
+                    <li><a class="elemnts" href="#footer">الخدمات</a></li>
+                    <li><a class="elemnts" href="#footer">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div class="logo">
+                <img src="{{ asset('images/hamouda-removebg-preview.png') }}" alt="متجر حمودة">
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>تألق مع حمودة شوب</h1>
+            <p>اكتشف حواسيب فاخرة بأداء عالي ودعم موثوق في متجر حمودة</p>
+            <a href="{{ route('product.showmainpage') }}" class="btn">عرض المنتجات</a>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>المنتجات المميزة</h2>
+            </div>
+            <div class="products">
+                @foreach($products as $product)
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                        </div>
+                        <div class="product-info">
+                            <h3>{{ $product->name }}</h3>
+                            <span class="price">{{ $product->price }} د.ج</span>
+                            <div class="buttons">
+                                <a href="{{ route('product.detail', $product->id) }}" class="btn order">التفاصيل</a>
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn order">إضافة إلى السلة</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>خدماتنا</h2>
+            </div>
+            <div class="services">
+                <div class="service-card">
+                    <i class="fas fa-laptop"></i>
+                    <h3>حواسيب عالية الجودة</h3>
+                    <p>نقدم أفضل الحواسيب بمواصفات تناسب احتياجاتك وميزانيتك</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>المساعدة في الستسوق العالمي</h3>
+                    <p>نساعدك في الشراء من المواقع الدولية التي لا تقبل الدفع الجزائري</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3> المساعدة في تسجيل الدورات </h3>
+                    <p>يمكننا تسجيل أي دورة لك من منصات مثل Udemy و Coursera</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>تحويل الأموال دوليا</h3>
+                    <p>نقبل الدفعات باليورو من الخارج ونوصل المبلغ المقابل بالدينار الجزائري للأشخاص في الجزائر</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>آراء العملاء</h2>
+            </div>
+            <div class="testimonial-cards swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="quote">تعاملت معاك كثيراااا ما شاء الله ثقة و مصداقية و تربية و اخلاق وصبر و ضمير حي الله يبارك فيك وفي رزقك و ربي يحفظك</p>
+                            <div class="client">
+                                <img src="customer1.jpg" alt="عميل">
+                                <div class="client-info">
+                                    <h4>سمية</h4>
+                                    <p>عميلة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="quote">احتجت تلغرام بريميوم من اجل عمل و بفضلك اشتركت نعم المتعامل مصداقية و معاملة و كلشي مليح</p>
+                            <div class="client">
+                                <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg" alt="عميلة">
+                                <div class="client-info">
+                                    <h4>لينا</h4>
+                                    <p>عميلة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="quote">اليوم لحقتني طلبيتي Lenovo x390 صراحة في حالة ممتازة تستاهل كل الثقة لي حطيتها فيك ننصح اي واحد يشري بعينيه مغمضين</p>
+                            <div class="client">
+                                <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg" alt="عميل">
+                                <div class="client-info">
+                                    <h4>أيمن</h4>
+                                    <p>عميل</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="quote">لحقتني لاكموند اليوم بارك الله فيكم وفي عملكم....</p>
+                            <div class="client">
+                                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg" alt="عميل">
+                                <div class="client-info">
+                                    <h4>سيمسي</h4>
+                                    <p>عميل</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="quote">سيد هذا صدق ومصداقية التامة انسان مشاء الله والله تعامل كان سريع صراحة اشترالي لعبة من متجر PS5 وتعامل كان مشاء الله 🤩</p>
+                            <div class="client">
+                                <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg" alt="عميل">
+                                <div class="client-info">
+                                    <h4>عبد المالك</h4>
+                                    <p>عميل</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <p class="quote">شريت من عند بيسي وعشرات المنتجات من علي اكسبرس وجامي لقيت معاك مشكل الحمدلله 🤝🏽 معاملة في القمة والسلعة بلا مانهدر</p>
+                            <div class="client">
+                                <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg" alt="عميل">
+                                <div class="client-info">
+                                    <h4>مهدي</h4>
+                                    <p>عميل</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>كيفية الطلب</h2>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>اختر المنتج</h3>
+                    <p>تصفح منتجاتنا واختر ما يناسبك</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>اتصل بنا</h3>
+                    <p>تواصل معنا عبر واتساب أو الهاتف</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>استلم الطلب</h3>
+                    <p>نوصل إلى باب منزلك</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>متجر حمودة</h3>
+                    <p>متجر متخصص في الحواسيب والخدمات التقنية في الجزائر</p>
+                    <div class="social-links">
+                        <div class="facebook">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                        <div class="insta">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="{{ route('product.showindex') }}">الرئيسية</a></li>
+                        <li><a href="{{ route('product.showmainpage') }}">المنتجات</a></li>
+                        <li><a href="#footer">الخدمات</a></li>
+                        <li><a href="#">عن المتجر</a></li>
+                        <li><a href="#footer">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>خدماتنا</h3>
+                    <ul>
+                        <li><a href="#">الحواسيب</a></li>
+                        <li><a href="#">التسوق العالمي</a></li>
+                        <li><a href="#">تسجيل الدورات</a></li>
+                        <li><a href="#">تحويل الأموال الدولي</a></li>
+                        <li><a href="#">الدعم الفني</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 0552155123</li>
+                        <li><i class="fas fa-envelope"></i> contact@hamoudashop.dz</li>
+                        <li><i class="fas fa-map-marker-alt"></i> الجزائر</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>جميع الحقوق محفوظة &copy; 2025 متجر حمودة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                speed: 600,
+                grabCursor: true,
+                keyboard: {
+                    enabled: true,
+                },
+                centeredSlides: true,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                    },
+                },
+            });
+        });
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mainNav = document.getElementById('main-nav');
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (this.classList.contains('active')) {
+                mainNav.classList.remove('active');
+            } else {
+                mainNav.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

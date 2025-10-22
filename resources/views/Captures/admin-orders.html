@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هامودا شوب - إدارة الطلبات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361EE;
+            --primary-light: #4895EF;
+            --secondary: #6C757D;
+            --success: #4CC9F0;
+            --danger: #e63946;
+            --warning: #F9C74F;
+            --light-bg: #F8F9FA;
+            --text-dark: #212529;
+            --text-light: #6C757D;
+            --border: #DEE2E6;
+            --white: #FFFFFF;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+        }
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+        .alert-success {
+            background-color: var(--primary);
+            color: #FFFFFF;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+            border: 1px solid var(--primary);
+        }
+        .sidebar {
+            width: 245px;
+            background: var(--white);
+            box-shadow: 0 0 20px var(--shadow);
+            padding: 1.5rem 1rem;
+            transition: var(--transition);
+            height: 100vh;
+            position: fixed;
+            z-index: 1000;
+            right: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 16px;
+        }
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .sidebar-menu {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.8rem 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+        }
+        .main-content {
+            flex: 1;
+            margin-right: 245px;
+            padding: 1rem;
+            width: calc(100% - 245px);
+            transition: var(--transition);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .user-menu {
+            display: flex;
+            justify-content: start;
+            margin-right: auto;
+        }
+        .user-menu a {
+            text-decoration: none;
+        }
+        .user-avatar {
+            padding: 4px;
+            width: 50px;
+            height: 35px;
+            border-radius: 10%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow);
+        }
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-left: 1rem;
+        }
+        .orders-icon {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: var(--primary);
+        }
+        .products-icon {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+        }
+        .revenue Simult        .revenue-icon {
+            background-color: rgba(249, 199, 79, 0.2);
+            color: var(--warning);
+        }
+        .users-icon {
+            background-color: rgba(247, 37, 133, 0.2);
+            color: var(--danger);
+        }
+        .stat-info h4 {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+        }
+        .stat-info p {
+            color: var(--text-light);
+        }
+        .content-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px var(--shadow);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        .content-section:hover {
+            box-shadow: 0 10px 25px var(--shadow);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+        }
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-select {
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        .search-box {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px 0 0 8px;
+            border-left: none;
+            transition: var(--transition);
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        .search-box button {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0 1.25rem;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .search-box button:hover {
+            background-color: var(--primary-light);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: var(--light-bg);
+        }
+        .product-cell {
+            display: flex;
+            align-items: center;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-left: 1rem;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .status-pending {
+            background-color: rgba(249, 199, 79, 0.2);
+            color: var(--warning);
+        }
+        .status-processing {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: var(--primary);
+        }
+        .status-shipped {
+            background-color: rgba(108, 117, 125, 0.2);
+            color: var(--secondary);
+        }
+        .status-delivered {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+        }
+        .status-cancelled {
+            background-color: rgba(247, 37, 133, 0.2);
+            color: var(--danger);
+        }
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--white);
+            transition: var(--transition);
+            margin-left: 0.5rem;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        .edit-btn {
+            background-color: var(--primary);
+        }
+        .delete-btn {
+            background-color: var(--danger);
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .pagination button {
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border: 1px solid var(--border);
+            background-color: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .pagination button:hover, .pagination button.active {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 220px;
+            }
+            .main-content {
+                margin-right: 220px;
+                width: calc(100% - 220px);
+            }
+        }
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(100%);
+                width: 260px;
+                transition: transform 0.3s ease-in-out;
+                margin-top: 0;
+                box-shadow: 2px 0 10px var(--shadow);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-right: 0;
+                width: 100%;
+                padding-top: 4rem;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            .overlay.active {
+                display: block;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+            .content-section {
+                padding: 1rem;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .filters {
+                flex-direction: column;
+            }
+            .filter-select {
+                width: 100%;
+            }
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.4rem;
+            }
+            .logo-text {
+                display: none;
+            }
+            .logo-icon {
+                display: none;
+            }
+            .product-img {
+                width: 40px;
+                height: 40px;
+            }
+            .action-btn {
+                padding: 0.4rem;
+                margin-left: 0.25rem;
+            }
+            .pagination {
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+            .stat-card {
+                padding: 1rem;
+            }
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            .stat-info h4 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-laptop"></i>
+            </div>
+            <div class="logo-text">هامودا شوب</div>
+        </div>
+        <div class="user-menu">
+            <a href="{{ route('admin.logout') }}" class="user-avatar">خروج</a>
+        </div>
+    </div>
+
+    <!-- Menu Toggle Button -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-laptop"></i>
+            </div>
+            <div class="logo-text">هامودا شوب</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ route('order.index') }}" class="active"><i class="fas fa-shopping-cart"></i> الطلبات</a></li>
+            <li><a href="{{ route('product.showmproductadmin') }}"><i class="fas fa-box"></i> المنتجات</a></li>
+            <li><a href="{{ route('admin.add') }}"><i class="fas fa-plus-circle"></i> إضافة منتج</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> العملاء</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> الإعدادات</a></li>
+            <li><a href="{{ route('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <div class="user-menu">
+                <a href="{{ route('admin.logout') }}" class="user-avatar">خروج</a>
+            </div>
+        </div>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon orders-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="stat-info">
+                    <h4>{{ $totalOrders }}</h4>
+                    <p>إجمالي الطلبات</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon products-icon"><i class="fas fa-box"></i></div>
+                <div class="stat-info">
+                    <h4>{{ $totalProducts }}</h4>
+                    <p>المنتجات المتوفرة</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon revenue-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-info">
+                    <h4>{{ number_format($totalRevenue, 0, '.', ',') }} د.ج</h4>
+                    <p>إجمالي الإيرادات</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon users-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                    <h4>{{ $totalCustomers }}</h4>
+                    <p>العملاء</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="orders-section" class="content-section">
+            <div class="section-header">
+                <h2>إدارة الطلبات</h2>
+            </div>
+            <div class="filters">
+                <select class="filter-select" id="status-filter">
+                    <option value="">جميع الحالات</option>
+                    <option value="pending">معلق</option>
+                    <option value="processing">قيد المعالجة</option>
+                    <option value="shipped">تم الشحن</option>
+                    <option value="delivered">تم التوصيل</option>
+                    <option value="cancelled">ملغى</option>
+                </select>
+                <div class="wilaya-baladiya-group">
+                    <select class="filter-select" id="wilaya-filter">
+                        <option value="">جميع الولايات</option>
+                        <option value="algiers">الجزائر</option>
+                        <option value="oran">وهران</option>
+                        <option value="constantine">قسنطينة</option>
+                        <option value="annaba">عنابة</option>
+                        <option value="jijel">جيجل</option>
+                    </select>
+                    <select class="filter-select" id="baladiya-filter">
+                        <option value="">جميع البلديات</option>
+                    </select>
+                </div>
+                <input type="date" class="filter-select" id="date-filter">
+            </div>
+            <div class="search-box">
+                <button><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="ابحث في الطلبات..." id="search-input">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المنتج</th>
+                        <th>الكمية</th>
+                        <th>السعر الإجمالي</th>
+                        <th>العميل</th>
+                        <th>الهاتف</th>
+                        <th>الولاية</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($orders as $order)
+                        @foreach ($order->products as $product)
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-img">
+                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                        </div>
+                                        <div>{{ $product->name }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ $product->pivot->quantity }}</td>
+                                <td>{{ number_format($order->the_final_price, 0, '.', ',') }} د.ج</td>
+                                <td>{{ $order->name }}</td>
+                                <td>{{ $order->phone_number }}</td>
+                                <td>{{ $order->wilaya }}</td>
+                                <td>
+                                    <button class="status status-{{ $order->status }}">{{ __($order->status) }}</button>
+                                </td>
+                                <td>
+                                    <a href="{{ route('order.edit', $order->id) }}" class="action-btn edit-btn"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('order.delete', $order->id) }}" class="action-btn delete-btn" onclick="return confirm('هل أنت متأكد من حذف هذا الطلب؟')"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="8" style="text-align: center;">لا توجد طلبات متاحة</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <div class="pagination">
+                {{ $orders->links() }}
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // وظيفة تبديل القائمة الجانبية
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (sidebar.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 992 && sidebar.classList.contains('active')) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickInsideToggle = menuToggle.contains(event.target);
+                if (!isClickInsideSidebar && !isClickInsideToggle) {
+                    toggleSidebar();
+                }
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // وظيفة زر الحالة
+        const statusButtons = document.querySelectorAll('.status');
+        const statusClasses = ['status-pending', 'status-processing', 'status-shipped', 'status-delivered', 'status-cancelled'];
+        const statusTexts = ['معلق', 'قيد المعالجة', 'تم الشحن', 'تم التوصيل', 'ملغى'];
+
+        statusButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                let currentIndex = statusClasses.findIndex(cls => this.classList.contains(cls));
+                if (currentIndex === -1) currentIndex = 0;
+                statusClasses.forEach(cls => this.classList.remove(cls));
+                const nextIndex = (currentIndex + 1) % statusClasses.length;
+                this.classList.add(statusClasses[nextIndex]);
+                this.textContent = statusTexts[nextIndex];
+
+                const orderId = this.closest('tr').querySelector('.edit-btn').getAttribute('href').split('/').pop();
+                fetch('/admin/orders/update-status/' + orderId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ status: statusTexts[nextIndex] })
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          console.log('تم تحديث الحالة بنجاح');
+                      }
+                  });
+            });
+        });
+
+        // بيانات الولايات والبلديات
+        const wilayaBaladiyaData = {
+            'algiers': ['الجزائر الوسطى', 'باب الوادي', 'الحراش', 'بوزريعة', 'الدار البيضاء'],
+            'oran': ['وهران', 'السانية', 'عين الترك', 'بطيوة', 'مرسى الحجاج'],
+            'constantine': ['قسنطينة', 'خنشلة', 'عين عبيد', 'الخروب', 'زيغود يوسف'],
+            'annaba': ['عنابة', 'سرايدي', 'الحجار', 'برحال', 'الشرفة'],
+            'jijel': ['جيجل', 'الطاهير', 'الميلية', 'العوانة', 'الشقفة']
+        };
+
+        const wilayaFilter = document.getElementById('wilaya-filter');
+        const baladiyaFilter = document.getElementById('baladiya-filter');
+
+        wilayaFilter.addEventListener('change', function() {
+            const selectedWilaya = this.value;
+            baladiyaFilter.innerHTML = '<option value="">جميع البلديات</option>';
+            if (selectedWilaya && wilayaBaladiyaData[selectedWilaya]) {
+                wilayaBaladiyaData[selectedWilaya].forEach(baladiya => {
+                    const option = document.createElement('option');
+                    option.value = baladiya;
+                    option.textContent = baladiya;
+                    baladiyaFilter.appendChild(option);
+                });
+            }
+        });
+
+        // تصفية الطلبات
+        const statusFilter = document.getElementById('status-filter');
+        const dateFilter = document.getElementById('date-filter');
+        const searchInput = document.getElementById('search-input');
+
+        function filterOrders() {
+            const status = statusFilter.value;
+            const wilaya = wilayaFilter.value;
+            const baladiya = baladiyaFilter.value;
+            const date = dateFilter.value;
+            const search = searchInput.value.toLowerCase();
+
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const statusText = row.querySelector('.status').classList.contains('status-' + status) || status === '';
+                const wilayaText = row.querySelector('td:nth-child(6)').textContent === wilaya || wilaya === '';
+                const customerText = row.querySelector('td:nth-child(4)').textContent.toLowerCase().includes(search);
+                row.style.display = (statusText && wilayaText && customerText) ? '' : 'none';
+            });
+        }
+
+        statusFilter.addEventListener('change', filterOrders);
+        wilayaFilter.addEventListener('change', filterOrders);
+        baladiyaFilter.addEventListener('change', filterOrders);
+        searchInput.addEventListener('input', filterOrders);
+        dateFilter.addEventListener('change', filterOrders);
+    </script>
+</body>
+</html>
