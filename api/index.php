@@ -1,20 +1,25 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
-define('LARAVEL_START', microtime(true));
+/**
+ * نقطة الدخول لـ Laravel على Vercel
+ */
 
-// Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
-}
+// شغلي Composer autoload
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
+// Bootstrap Laravel
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
-// Bootstrap Laravel and handle the request...
-/** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
+/**
+ * حل مشكلة الكتابة في bootstrap/cache و storage على Vercel
+ * خلي Laravel يقرأ الكاش الجاهز بدل ما يحاول يكتبه
+ */
+putenv('APP_CONFIG_CACHE='.__DIR__.'/../bootstrap/cache/config.php');
+putenv('APP_SERVICES_CACHE='.__DIR__.'/../bootstrap/cache/services.php');
+putenv('APP_PACKAGES_CACHE='.__DIR__.'/../bootstrap/cache/packages.php');
+putenv('VIEW_COMPILED_PATH='.__DIR__.'/../storage/framework/views');
 
+// شغّل الطلب
 $app->handleRequest(Request::capture());
